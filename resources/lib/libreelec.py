@@ -8,9 +8,9 @@ OS_RELEASE = dict(line.strip().replace('"', '').split('=')
                   for line in open('/etc/os-release'))
 
 try:
-    ARCH = OS_RELEASE['OPENELEC_ARCH']
+    ARCH = OS_RELEASE['LIBREELEC_ARCH']
 except KeyError:
-    # Enables testing on non OpenELEC machines
+    # Enables testing on non LibreELEC machines
     ARCH = 'RPi.arm'
 
 UPDATE_DIR = os.path.join(os.path.expanduser('~'), '.update')
@@ -21,17 +21,19 @@ if OS_RELEASE['NAME'] not in ["OpenELEC", "LibreELEC"]:
         # Enables testing standalone script outside Kodi
         UPDATE_DIR = os.path.expanduser('~')
     else:
-        # Enables testing in non OpenELEC Kodi
+        # Enables testing in non LibreELEC Kodi
         UPDATE_DIR = xbmc.translatePath("special://temp/")
 
 UPDATE_IMAGES = ('SYSTEM', 'KERNEL')
 
-def dist():
+
+def release():
     dist = OS_RELEASE['NAME']
-    if dist in ("LibreELEC", "OpenELEC"):
-        return dist.lower()
+    if dist == "LibreELEC":
+        return "{name}-{version}".format(name=dist,
+                                         version=OS_RELEASE['VERSION_ID'])
     else:
-        return "libreelec"
+        return "LibreELEC-8.0"
 
 
 def mount_readwrite():
@@ -59,16 +61,17 @@ def update_extlinux():
     subprocess.call(['/usr/bin/extlinux', '--update', '/flash'])
 
 
+def system_device():
+    for mount in open('/proc/mounts'):
+        device, path = mount.split()[:2]
+        if path == '/flash':
+            return os.path.split(device)[-1]
+
+
 def debug_system_partition():
-    try:
-        partition = os.path.basename(os.readlink('/dev/disk/by-label/System'))
-    except OSError:
-        return False    
-    
-    try:
-        size_path = glob.glob('/sys/block/*/{}/size'.format(partition))[0]
-    except IndexError:
+    DEBUG_BYTES_REQUIRED = 384*1024*1024
+    device = system_device()
+    if device is None:
         return False
-    
-    system_size_bytes = int(open(size_path).read()) * 512
-    return system_size_bytes >= 384 * 1024*1024
+    system_size_bytes = int(open(os.path.join('/sys/class/block', device, 'size')).read()) * 512
+    return system_size_bytes >= DEBUG_BYTES_REQUIRED

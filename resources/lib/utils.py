@@ -9,7 +9,7 @@ from urlparse import urlparse
 
 import xbmc, xbmcaddon, xbmcgui
 
-from . import openelec, log, addon, funcs, history, builds
+from . import libreelec, log, addon, funcs, history, builds
 from .addon import L10n
 
 
@@ -74,14 +74,14 @@ def get_arch():
     if addon.get_bool_setting('set_arch'):
         return addon.get_setting('arch')
     else:
-        return openelec.ARCH
+        return libreelec.ARCH
 
 
 def notify(msg, time=12000, error=False):
     log.log("Notifying: {}".format(msg))
     if error:
         msg = "[COLOR red]{}[/COLOR]".format(L10n(32060)).format(msg)
-    notification(addon.name, msg, addon.icon_path, time)
+    notification(addon.name, msg, addon.notification_icon_path, time)
 
 
 def showbusy(f):
@@ -143,7 +143,7 @@ def install_cmdline_script():
 
 
 def maybe_schedule_extlinux_update():
-    if (not openelec.ARCH.startswith('RPi') and
+    if (not libreelec.ARCH.startswith('RPi') and
         addon.get_bool_setting('update_extlinux')):
         funcs.schedule_extlinux_update()
 

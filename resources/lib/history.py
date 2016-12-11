@@ -106,7 +106,7 @@ if __name__ == "__main__":
                             formatter_class=RawTextHelpFormatter)
     parser.add_argument(
         'dbpath', nargs='?',
-        default="/storage/.kodi/userdata/addon_data/script.openelec.devupdate/builds.db",
+        default="/storage/.kodi/userdata/addon_data/script.libreelec.devupdater/builds.db",
         help="path to the install history database \n (default: %(default)s)")
 
     parser.add_argument(

@@ -1,6 +1,7 @@
+import os
 import xbmc, xbmcaddon
 
-__addon = xbmcaddon.Addon('script.openelec.devupdate')
+__addon = xbmcaddon.Addon('script.libreelec.devupdater')
 
 info = __addon.getAddonInfo
 get_setting = __addon.getSetting
@@ -19,3 +20,4 @@ version = info('version')
 data_path = xbmc.translatePath(info('profile'))
 src_path = xbmc.translatePath(info('path'))
 icon_path = info('icon')
+notification_icon_path = os.path.join(src_path, 'notification.png')

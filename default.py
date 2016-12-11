@@ -27,7 +27,7 @@ from contextlib import closing
 import xbmc, xbmcgui, xbmcaddon, xbmcvfs
 import requests
 
-from resources.lib import (progress, script_exceptions, utils, builds, openelec,
+from resources.lib import (progress, script_exceptions, utils, builds, libreelec,
                            rpi, addon, log, gui, funcs)
 from resources.lib.addon import L10n
 
@@ -61,8 +61,8 @@ class Main(object):
 
         self.background = addon.get_bool_setting('background')
         self.verify_files = addon.get_bool_setting('verify_files')
-        
-        funcs.create_directory(openelec.UPDATE_DIR)
+
+        funcs.create_directory(libreelec.UPDATE_DIR)
 
         utils.check_update_files(builds.get_build_from_notify_file(),
                                  force_dialog=True)
@@ -157,7 +157,7 @@ class Main(object):
         
         self.download_path = os.path.join(TEMP_PATH, filename)
         self.temp_tar_path = os.path.join(TEMP_PATH, tar_name)
-        self.update_tar_path = os.path.join(openelec.UPDATE_DIR, tar_name)
+        self.update_tar_path = os.path.join(libreelec.UPDATE_DIR, tar_name)
         if self.archive:
             self.archive_tar_path = os.path.join(self.archive_dir, tar_name)
         
@@ -255,7 +255,7 @@ class Main(object):
         with closing(tarfile.open(self.update_tar_path, 'r')) as tf:
             tar_names = tf.getnames()
 
-            for update_image in openelec.UPDATE_IMAGES:
+            for update_image in libreelec.UPDATE_IMAGES:
                 path_in_tar = next(name for name in tar_names
                                    if name.endswith(os.path.join('target', update_image)))
                 ti = tf.extractfile(path_in_tar)
