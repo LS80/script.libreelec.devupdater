@@ -4,163 +4,132 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="OpenELEC Dev Update : Unofficial update add-on for OpenELEC" />
+    <meta name="description" content="LibreELEC Dev Updater : Development build updater add-on for LibreELEC" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>OpenELEC Dev Update</title>
+    <title>LibreELEC Dev Updater</title>
   </head>
 
   <body>
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
-        <ins style="display:block; float:left; width:266px;height:266px;background-image:url(https://raw.github.com/LS80/script.openelec.devupdate/master/icon.png);background-repeat:no-repeat;"></ins>
         <header class="inner">
-            <a id="forkme_banner" href="https://github.com/LS80/script.openelec.devupdate">View on GitHub</a>
+            <a id="forkme_banner" href="https://github.com/LS80/script.libreelec.devupdater">View on GitHub</a>
 
-            <h1 id="project_title">OpenELEC Dev Update</h1>
-            <h2 id="project_tagline">Unofficial update add-on for OpenELEC</h2>
+            <h1 id="project_title">LibreELEC Dev Updater</h1>
+            <h2 id="project_tagline">Development build updater add-on for LibreELEC</h2>
         </header>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-      
-      <iframe width="640" height="360" src="https://www.youtube.com/embed/45SpE_FCMKw?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 
-      <br><br>
-      <div><ul>
-          <li><a href="#installation">Installation</a></li>
-          <li><a href="#sources">Sources</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#reporting-issues">Reporting Issues</a></li>
-          <li><a href="#screenshots">Screenshots</a></li>
-      </ul></div>
+        <div><ul>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#sources">Sources</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#reporting-issues">Reporting Issues</a></li>
+        </ul></div>
 
-<h5>This add-on makes it easy to upgrade/downgrade OpenELEC development builds by downloading directly from websites which host them.</h5>
+        <h5>This add-on makes it easy to upgrade/downgrade LibreELEC development builds by downloading directly from Kodi.</h5>
 
-<p>It shows a list of available build sources and a list of builds available at the currently selected source.</p>
-<p><img src="screenshots/builds.png" alt="Build list"></p>
+        <p>It shows a list of available build sources and a list of builds available at the currently selected source.</p>
+        <p><img src="screenshots/builds.png" alt="Build list"></p>
 
-<p>To view more details about a build press the Info button (currently only for Milhouse RPi Builds).</p>
-<p><img src="screenshots/build_details.png" alt="Build details"></p>
+        <p>To view more details about a build press the Info button (currently only for Milhouse Builds).</p>
+        <p><img src="screenshots/build_details.png" alt="Build details"></p>
 
-<p>There is also a service which runs in the background, so when a newer build becomes available, a notification will be shown to enable you to install the update.</p>
-<p><img src="screenshots/notification.png" alt="Notification"></p>
+        <p>To perform an update the add-on will download the tar file into the /storage/.update folder. The update will then be installed on the next reboot.</p>
 
-<p>To perform an update the add-on will download the (possibly bzip compressed) tar file into the /storage/.update folder. The update will then be installed on the next reboot. This process is as documented on the <a href="http://wiki.openelec.tv/index.php/Updating_OpenELEC#Manually_Updating_OpenELEC">OpenELEC wiki</a>.</p>
+        <h3><a name="installation" class="anchor" href="#installation"></a>Installation</h3>
 
-<h3><a name="installation" class="anchor" href="#installation"></a>Installation</h3>
-
-<ol>
-<p>There are two steps required.</p>
-<li>
-    <p>Install my repository.</p>
-    <ul>
-        <li>To install directly from OpenELEC use the file manager to add <strong>http://repo.leopold.me.uk</strong> as a new source.</li>
-        <li>Alternatively if you're happy on the command line you can <a href="http://wiki.openelec.tv/index.php/Ssh_commands">login via ssh</a> and run
-        <pre>wget http://repo.leopold.me.uk/repo.leopold.zip</pre>
+        <ol>
+        <p>There are two steps required.</p>
+        <li>Install the Leopold repository zip file.</p>
+            <ol>
+                <li>Use the file manager to add <strong>http://repo.leopold.me.uk</strong> as a new source, or <a href="https://wiki.libreelec.tv/index.php?title=Accessing_LibreELEC#tab=SSH">login via ssh</a> and run
+                    <pre>wget http://repo.leopold.me.uk/repo.leopold.zip</pre>
+                </li>
+                <li><a href="http://kodi.wiki/view/Add-on_manager#How_to_install_from_a_ZIP_file">Install from zip</a>.</li>
+            </ol>
         </li>
-        <li><a href="http://kodi.wiki/view/Add-on_manager#How_to_install_from_a_ZIP_file">Install from zip</a>.</li>
-    </ul>
-</li>
 
-<li>Install <strong>OpenELEC Dev Update</strong> from <strong>Leopold's Add-ons</strong> under <strong>Program Add-ons</strong>.</li>
-</ol><p>Installing from the repository will ensure that the add-on is kept up-to-date as I push out updates.</p>
+        <li>Install <strong>LibreELEC Dev Updater</strong> from <strong>Leopold's Add-ons</strong> under <strong>Program Add-ons</strong>.</li>
+        </ol><p>Installing from the repository will ensure that the add-on is kept up-to-date as I release updates.</p>
 
-<p><strong><a href="https://raw.github.com/LS80/script.openelec.devupdate/master/changelog.txt">Version history</a></strong></p>
+        <p><strong><a href="https://raw.github.com/LS80/script.libreelec.devupdater/master/changelog.txt">Version history</a></strong></p>
 
-<h3><a name="sources" class="anchor" href="#sources"></a>Sources</h3>
-<ul>
-<li><a href="http://snapshots.openelec.tv">Official Snapshot Builds</a> [<a href="http://openelec.tv/forum/20-development-discussion/67846">Forum</a>] </li>
-<li><a href="http://milhouse.openelec.tv/builds/master">Milhouse RPi Builds</a> [<a href="http://forum.kodi.tv/showthread.php?tid=231092">Forum</a>]</li>
-<li><a href="http://resources.pichimney.com/OpenELEC/dev_builds">Chris Swan RPi Builds</a></li>
-<li><a href="http://openelec.mirrors.uk2.net">Official Releases</a></li>
-<li><a href="http://archive.openelec.tv">Official Archive</a></li>
-<li><a href="http://openelec-dualaudio.subcarrier.de/OpenELEC-DualAudio/">DarkAngel2401 Dual Audio Builds</a> [<a href="http://forum.kodi.tv/showthread.php?tid=192480">Forum</a>]</li>
-</ul>
+        <h3><a name="sources" class="anchor" href="#sources"></a>Sources</h3>
+        <ul>
+        <li><a href="http://milhouse.openelec.tv/builds/">Milhouse Builds</a></li>
+        <li><a href="https://libreelec.tv/downloads/">Official Releases</a></li>
+        </ul>
 
-<h3><a name="faq" class="anchor" href="#faq"></a>Frequently asked questions</h3>
-<ol>
-<li>
-<strong>Can I use a URL other than those provided?</strong>
-Yes, an additional custom URL can be configured in the add-on settings.
-</li>
+        <h3><a name="faq" class="anchor" href="#faq"></a>Frequently asked questions</h3>
+        <ol>
+          <li>
+            <strong>Can I use a URL other than those provided?</strong>
+            Yes, an additional custom URL can be configured in the add-on settings.
+          </li>
 
-<li>
-<strong>I prefer using the command line. Can I download builds that way?</strong>
-Yes you can log in via ssh and run 
-<pre>
-./devupdate
-</pre>
-</li>
+          <li>
+            <strong>I prefer using the command line. Can I download builds that way?</strong>
+            Yes you can log in via ssh and run <code>./devupdate</code>
+          </li>
 
-<li>
-<strong>Why is the add-on not updating itself?</strong>
-You probably installed the zip file instead of installing from the repository.
-If you install from the repository you will always receive the latest add-on updates.
-</li>
-</ol>
+          <li>
+            <strong>Why is the add-on not updating?</strong>
+            You probably installed the zip file instead of installing from the repository.
+            If you install from the repository you will always receive the latest add-on updates.
+          </li>
+        </ol>
 
-<hr><p>Please note that this is not an "official" OpenELEC add-on. If you hit any problems with it, don't ask for support from the OpenELEC team, please post on this <a href="http://openelec.tv/forum/128-addons/49855">OpenELEC forum thread</a> or raise an <a href="https://github.com/LS80/script.openelec.devupdate/issues/new">issue</a>. If you have any comments/questions/suggestions please also post on the thread.</p>
+        <h3><a name="reporting-issues" class="anchor" href="#reporting-issues"></a>Reporting Issues</h3>
 
-<hr><ul>
-<li><p><strong>Be aware that development builds often have major bugs. you may experience frequent crashes or other problems when using these builds. stick to the official stable builds where possible. Do not use a development build unless there is a specific need.</strong></p></li>
-<li><p><strong>To avoid potential issues with configuration, it is best to do a fresh install when switching from a stable to a development build, and vice versa.</strong></p></li>
-<li><p><strong>It is advised to backup the userdata folder when updating. This step can now be automated by the add-on, thanks to the <a href="http://kodi.wiki/view/Add-on:Backup">Backup add-on</a>.</strong></p></li>
-</ul>
+        <p>If you get a script error or other problem please raise an <a href="https://github.com/LS80/script.libreelec.devupdater/issues/new">issue</a> on github. If you can reproduce the problem then please include a debug log, by following these steps:</p>
 
-<h3><a name="reporting-issues" class="anchor" href="#reporting-issues"></a>Reporting Issues</h3>
+        <ul>
+        <li>Turn on the 'Debug' option in the add-on advanced settings.</li>
+        <li>Restart to start a clean log.</li>
+        <li>Run the add-on again to reproduce the error.</li>
+        <li>Upload the debug log. There are a couple of ways:
 
-<p>If you get a script error or other problem please raise an <a href="https://github.com/LS80/script.openelec.devupdate/issues/new">issue</a> or post on the <a href="http://openelec.tv/forum/128-addons/49855">OpenELEC forum thread</a>. If you can reproduce the problem then please include a debug log, by following these steps:</p>
+        <ol>
+        <li>Log in via ssh and run pastebinit ~/.kodi/temp/kodi.log</li>
+        <li>Use the add-on "Kodi Log Uploader".</li>
+        </ol>
+        </li>
+        </ul>
 
-<ul>
-<li>Turn on the 'Debug' option in the add-on advanced settings.</li>
-<li>Restart to start a clean log.</li>
-<li>Run the add-on again to reproduce the error.</li>
-<li>Upload the debug log. There are a couple of ways:
+        <hr>
+        <p><strong>Be aware that development builds often have major bugs. you may experience frequent crashes or other problems when using these builds. stick to the official stable builds where possible. Do not use a development build unless there is a specific need.</strong></p>
+        <p><strong>To avoid potential issues with configuration, it is best to do a fresh install when switching from a stable to a development build, and vice versa.</strong></p>
+        <p><strong>It is advised to backup the userdata folder when updating. This step can now be automated by the add-on, thanks to the <a href="http://kodi.wiki/view/Add-on:Backup">Backup add-on</a>.</strong></p>
 
-<ol>
-<li>Log in via ssh and run pastebinit ~/.kodi/temp/kodi.log</li>
-<li>Use the add-on "Kodi Log Uploader".</li>
-</ol>
-</li>
-</ul>
-
-<h3><a name="screenshots" class="anchor" href="#screenshots"></a>Screenshots</h3>
-
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/settings_general.png" alt="General Settings"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/settings_notifications.png" alt="Notification Settings"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/settings_custom_sources.png" alt="Custom Source Settings"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/builds.png" alt="Build list"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/build_details.png" alt="Build details"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/downloading.png" alt="Downloading"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/retrieving_background.png" alt="Retrieving from archive"></p>
-<p><img src="http://ls80.github.io/script.openelec.devupdate/screenshots/rebooting.png" alt="Rebooting"></p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">OpenELEC Dev Update maintained by <a href="https://github.com/LS80">LS80</a></p>
+        <p class="copyright">LibreELEC Dev Updater maintained by <a href="https://github.com/LS80">LS80</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-          
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-36069599-3', 'auto');
-  ga('send', 'pageview');
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-</script>
+    ga('create', 'UA-36069599-6', 'auto');
+    ga('send', 'pageview');
 
+  </script>
 
   </body>
 </html>
