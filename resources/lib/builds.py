@@ -188,20 +188,16 @@ class BuildLinkExtractor(BaseExtractor):
     """Base class for extracting build links from a URL"""
     BUILD_RE = (".*{dist}.*-{arch}-(?:\d+\.\d+-|)[a-zA-Z]+-(\d+)"
                 "-r\d+[a-z]*-g([0-9a-z]+)\.tar(|\.bz2)")
-    CSS_CLASS = None
 
     def __iter__(self):
         html = self._text()
-        args = ['a']
-        if self.CSS_CLASS is not None:
-            args.append(self.CSS_CLASS)
 
         self.build_re = re.compile(
             self.BUILD_RE.format(dist=libreelec.OS_RELEASE['NAME'], arch=arch),
             re.I)
 
         soup = BeautifulSoup(html, 'html.parser',
-                             parse_only=SoupStrainer(*args, href=self.build_re))
+                             parse_only=SoupStrainer('a', href=self.build_re))
 
         for link in soup.contents:
             l = self._create_link(link)
@@ -211,10 +207,6 @@ class BuildLinkExtractor(BaseExtractor):
     def _create_link(self, link):
         href = link['href']
         return BuildLink(self.url, href, *self.build_re.match(href).groups()[:2])
-
-
-class DropboxBuildLinkExtractor(BuildLinkExtractor):
-    CSS_CLASS = 'filename-link'
 
 
 class ReleaseLinkExtractor(BaseExtractor):
