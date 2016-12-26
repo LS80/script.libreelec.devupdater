@@ -380,11 +380,7 @@ def get_installed_build():
     else:
         DEVEL_RE = "devel-(\d+)-r\d+-g([a-z0-9]+)"
 
-    if libreelec.OS_RELEASE['NAME'] == "LibreELEC":
-        version = libreelec.OS_RELEASE['VERSION']
-    else:
-        # For testing on a non LibreELEC machine
-        version = 'devel-20150503135721-r20764-gbfd3782'
+    version = libreelec.OS_RELEASE['VERSION']
 
     m = re.match(DEVEL_RE, version)
     if m:
@@ -431,53 +427,3 @@ def get_build_from_notify_file():
     if selected:
         source, build_repr = selected
         return source, eval(build_repr)
-
-
-def main():
-    """Test function to print all available builds when executing the module."""
-    import sys
-
-    installed_build = get_installed_build()
-
-    def get_info(build_url):
-        info = {}
-        for info_extractor in build_url.info_extractors:
-            try:
-                info.update(info_extractor.get_info())
-            except Exception as e:
-                print str(e)
-        return info
-
-    def print_links(name, build_url):
-        info = get_info(build_url)
-        print name
-        try:
-            for link in build_url:
-                try:
-                    summary = info[link.version]
-                except KeyError:
-                    summary = ""
-                print "\t{:25s} {}".format(str(link) + ' *' * (link > installed_build),
-                                           summary)
-        except (requests.RequestException, BuildURLError) as e:
-            print str(e)
-        print
-
-    print "Installed build = {}".format(installed_build)
-    print
-
-    urls = sources()
-
-    if len(sys.argv) > 1:
-        name = sys.argv[1]
-        if name not in urls:
-            print '"{}" not in URL list'.format(name)
-        else:
-            print_links(name, urls[name])
-    else:
-        for name, build_url in urls.items():
-            print_links(name, build_url)
-
-
-if __name__ == "__main__":
-    main()

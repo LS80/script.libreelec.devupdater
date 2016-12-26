@@ -29,11 +29,8 @@ UPDATE_IMAGES = ('SYSTEM', 'KERNEL')
 
 def release():
     dist = OS_RELEASE['NAME']
-    if dist == "LibreELEC":
-        return "{name}-{version}".format(name=dist,
-                                         version=OS_RELEASE['VERSION_ID'])
-    else:
-        return "LibreELEC-8.0"
+    return "{name}-{version}".format(name=dist,
+                                     version=OS_RELEASE['VERSION_ID'])
 
 
 def mount_readwrite():
