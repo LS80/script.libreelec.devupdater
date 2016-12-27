@@ -36,7 +36,7 @@ def maybe_restore_config():
 
 
 def maybe_disable_overclock():
-    if (libreelec.ARCH.startswith('RPi') and
+    if (libreelec.OS_RELEASE['LIBREELEC_ARCH'].startswith('RPi') and
         os.path.isfile(CONFIG_PATH) and
         addon.get_bool_setting('disable_overclock')):
 

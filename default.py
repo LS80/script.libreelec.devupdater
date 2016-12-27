@@ -6,12 +6,12 @@
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
-# 
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-# 
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
@@ -28,10 +28,21 @@ import xbmc, xbmcgui, xbmcaddon, xbmcvfs
 import requests
 
 from resources.lib import (progress, script_exceptions, utils, builds, libreelec,
-                           rpi, addon, log, gui, funcs)
+                           rpi, addon, log, gui, funcs, config, sources)
 from resources.lib.addon import L10n
 
 TEMP_PATH = xbmc.translatePath("special://temp/")
+
+if libreelec.OS_RELEASE['NAME'] != "LibreELEC":
+    # Enables testing in Kodi
+    from resources.lib import mock
+    mock.mock_libreelec()
+    libreelec.UPDATE_DIR = TEMP_PATH
+
+utils.set_arch()
+
+if addon.get_bool_setting('set_timeout'):
+    config.timeout = float(addon.get_setting('timeout'))
 
 
 class Main(object):
@@ -51,13 +62,8 @@ class Main(object):
             raise script_exceptions.AlreadyRunning
 
         utils.set_running()
-        log.log("Starting")
-
-        builds.arch = utils.get_arch()
-        log.log("Set arch to {}".format(builds.arch))
-
-        if addon.get_bool_setting('set_timeout'):
-            builds.timeout = float(addon.get_setting('timeout'))
+        log.log("Starting GUI")
+        log.log("Arch set to {}".format(config.arch))
 
         self.background = addon.get_bool_setting('background')
         self.verify_files = addon.get_bool_setting('verify_files')
@@ -331,12 +337,7 @@ def new_build_check():
         # Don't do the job of the official auto-update system.
         log.log("Skipping build check - official release")
     else:
-        builds.arch = utils.get_arch()
-
-        if addon.get_bool_setting('set_timeout'):
-            builds.timeout = float(addon.get_setting('timeout'))
-
-        build_sources = builds.sources()
+        build_sources = sources.build_sources()
         try:
             build_url = build_sources[source]
         except KeyError:
@@ -345,7 +346,7 @@ def new_build_check():
 
         log.log("Checking {}".format(build_url.url))
 
-        latest = builds.latest_build(source)
+        latest = build_url.latest()
         if latest and latest > installed_build:
             if utils.do_show_dialog():
                 log.log("New build {} is available, "
@@ -368,10 +369,10 @@ log.log_version()
 log.log("Script arguments: {}".format(sys.argv))
 
 if addon.get_bool_setting('set_date_format'):
-    builds.date_fmt = funcs.strftime_fmt(addon.get_setting('date_format'))
+    config.date_fmt = funcs.strftime_fmt(addon.get_setting('date_format'))
 else:
-    builds.date_fmt = xbmc.getRegion('dateshort')
-log.log("Set date format to {}".format(builds.date_fmt))
+    config.date_fmt = xbmc.getRegion('dateshort')
+log.log("Set date format to {}".format(config.date_fmt))
 
 if len(sys.argv) > 1:
     if sys.argv[1] == 'checkperiodic':

@@ -1,5 +1,4 @@
 import os
-import glob
 import subprocess
 from contextlib import contextmanager
 
@@ -7,23 +6,7 @@ from contextlib import contextmanager
 OS_RELEASE = dict(line.strip().replace('"', '').split('=')
                   for line in open('/etc/os-release'))
 
-try:
-    ARCH = OS_RELEASE['LIBREELEC_ARCH']
-except KeyError:
-    # Enables testing on non LibreELEC machines
-    ARCH = 'RPi.arm'
-
 UPDATE_DIR = os.path.join(os.path.expanduser('~'), '.update')
-if OS_RELEASE['NAME'] not in ["OpenELEC", "LibreELEC"]:
-    try:
-        import xbmc
-    except ImportError:
-        # Enables testing standalone script outside Kodi
-        UPDATE_DIR = os.path.expanduser('~')
-    else:
-        # Enables testing in non LibreELEC Kodi
-        UPDATE_DIR = xbmc.translatePath("special://temp/")
-
 UPDATE_IMAGES = ('SYSTEM', 'KERNEL')
 
 

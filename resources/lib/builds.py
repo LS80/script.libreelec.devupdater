@@ -9,19 +9,13 @@ import re
 import os
 import urlparse
 from datetime import datetime
-from collections import OrderedDict
 from urllib2 import unquote
 
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import html2text
 
-import libreelec, funcs, log
-
-
-timeout = None
-arch = libreelec.ARCH
-date_fmt = '%d %b %y'
+import libreelec, config, funcs, log
 
 
 class BuildURLError(Exception):
@@ -69,7 +63,7 @@ class Build(object):
 
     @property
     def date(self):
-        return self._datetime.strftime(date_fmt)
+        return self._datetime.strftime(config.date_fmt)
 
     @property
     def version(self):
@@ -128,7 +122,7 @@ class BuildLinkBase(object):
             self.url = link
 
     def remote_file(self):
-        response = requests.get(self.url, stream=True, timeout=timeout,
+        response = requests.get(self.url, stream=True, timeout=config.timeout,
                                 headers={'Accept-Encoding': None})
         try:
             self.size = int(response.headers['Content-Length'])
@@ -168,7 +162,7 @@ class BaseExtractor(object):
             self.url = url
 
     def _response(self):
-        response = requests.get(self.url, timeout=timeout)
+        response = requests.get(self.url, timeout=config.timeout)
         if not response:
             msg = "Build URL error: status {}".format(response.status_code)
             raise BuildURLError(msg)
@@ -193,7 +187,7 @@ class BuildLinkExtractor(BaseExtractor):
         html = self._text()
 
         self.build_re = re.compile(
-            self.BUILD_RE.format(dist=libreelec.OS_RELEASE['NAME'], arch=arch),
+            self.BUILD_RE.format(dist=libreelec.OS_RELEASE['NAME'], arch=config.arch),
             re.I)
 
         soup = BeautifulSoup(html, 'html.parser',
@@ -212,7 +206,7 @@ class BuildLinkExtractor(BaseExtractor):
 class ReleaseLinkExtractor(BaseExtractor):
     def __iter__(self):
         base_url = "http://releases.libreelec.tv"
-        releases = self._json()[libreelec.release()]['project'][arch]['releases']
+        releases = self._json()[libreelec.release()]['project'][config.arch]['releases']
         for release in releases.itervalues():
             filename = release['file']['name']
             release_name = re.search('-(\d+\.\d+\.\d+).tar', filename).group(1)
@@ -300,7 +294,7 @@ class MilhouseBuildInfoExtractor(BuildInfoExtractor):
 
 
 def get_milhouse_build_info_extractors():
-    if arch.startswith("RPi"):
+    if config.arch.startswith("RPi"):
         threads = [269814, 298461]
     else:
         threads = [269815, 298462]
@@ -366,7 +360,7 @@ class MilhouseBuildsURL(BuildsURL):
         self.subdir = subdir
         url = "http://milhouse.libreelec.tv/builds/"
         super(MilhouseBuildsURL, self).__init__(
-            url, os.path.join(subdir, arch.split('.')[0]),
+            url, os.path.join(subdir, config.arch.split('.')[0]),
             MilhouseBuildLinkExtractor, list(get_milhouse_build_info_extractors()))
 
     def __repr__(self):
@@ -388,37 +382,6 @@ def get_installed_build():
     else:
         # A full release is installed.
         return Release(version)
-
-
-def sources():
-    """Return an ordered dictionary of the sources as BuildsURL objects.
-       Only return sources which are relevant for the system.
-       The GUI will show the sources in the order defined here.
-    """
-    _sources = OrderedDict()
-
-    _sources["Official Releases"] = BuildsURL("http://releases.libreelec.tv/releases.json",
-                                              extractor=ReleaseLinkExtractor)
-
-    _sources["Milhouse Builds"] = MilhouseBuildsURL()
-
-    if libreelec.debug_system_partition():
-        _sources["Milhouse Builds (debug)"] = MilhouseBuildsURL(subdir="debug")
-
-    return _sources
-
-
-def latest_build(source):
-    """Return the most recent build for the provided source name or None if
-       there is an error. This is used by the service to check for a new build.
-    """
-    build_sources = sources()
-    try:
-        build_url = build_sources[source]
-    except KeyError:
-        return None
-    else:
-        return build_url.latest()
 
 
 @log.with_logging(msg_error="Unable to create build object from the notify file")

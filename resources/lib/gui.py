@@ -3,7 +3,7 @@ import threading
 import xbmcgui
 import requests
 
-from . import addon, builds, utils, log, history, funcs
+from . import addon, builds, utils, log, history, funcs, config, sources
 from .addon import L10n
 
 
@@ -67,7 +67,7 @@ class BuildSelectDialog(xbmcgui.WindowXMLDialog):
     def __init__(self, installed_build):
         self._installed_build = installed_build
 
-        self._sources = builds.sources()
+        self._sources = sources.build_sources()
         utils.add_custom_sources(self._sources)
 
         self._initial_source = addon.get_setting('source_name')
@@ -91,7 +91,7 @@ class BuildSelectDialog(xbmcgui.WindowXMLDialog):
 
         self._build_list = self.getControl(self.BUILD_LIST_ID)
 
-        self.getControl(self.LABEL_ID).setLabel("[B]{}[/B]".format(builds.arch))
+        self.getControl(self.LABEL_ID).setLabel("[B]{}[/B]".format(config.arch))
 
         self._info_textbox = self.getControl(self.INFO_TEXTBOX_ID)
 
@@ -218,7 +218,7 @@ class BuildSelectDialog(xbmcgui.WindowXMLDialog):
             utils.url_error(build_url.url, str(e))
         else:
             if not links:
-                utils.bad_url(build_url.url, L10n(32039).format(builds.arch))
+                utils.bad_url(build_url.url, L10n(32039).format(config.arch))
         return links
 
     def _get_build_infos(self, build_url):

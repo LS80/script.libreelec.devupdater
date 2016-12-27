@@ -9,7 +9,7 @@ from urlparse import urlparse
 
 import xbmc, xbmcaddon, xbmcgui
 
-from . import libreelec, log, addon, funcs, history, builds
+from . import libreelec, log, addon, funcs, history, builds, config
 from .addon import L10n
 
 
@@ -70,11 +70,9 @@ def remove_update_files():
     return all(funcs.remove_file(tar) for tar in funcs.update_files())
 
 
-def get_arch():
+def set_arch():
     if addon.get_bool_setting('set_arch'):
-        return addon.get_setting('arch')
-    else:
-        return libreelec.ARCH
+        config.arch = addon.get_setting('arch')
 
 
 def notify(msg, time=12000, error=False):
@@ -143,7 +141,7 @@ def install_cmdline_script():
 
 
 def maybe_schedule_extlinux_update():
-    if (not libreelec.ARCH.startswith('RPi') and
+    if (not libreelec.OS_RELEASE['LIBREELEC_ARCH'].startswith('RPi') and
         addon.get_bool_setting('update_extlinux')):
         funcs.schedule_extlinux_update()
 

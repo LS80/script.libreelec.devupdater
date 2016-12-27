@@ -7,14 +7,10 @@ import requests
 
 sys.path.insert(0, os.path.relpath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Mock the local etc/os-release values to look like a Milhouse LibreELEC
-from lib import libreelec
-libreelec.OS_RELEASE['NAME'] = 'LibreELEC'
-libreelec.OS_RELEASE['VERSION_ID'] = '8.0'
-libreelec.OS_RELEASE['VERSION'] = 'devel-20161224210557-#1224-gdc61a12'
-libreelec.OS_RELEASE['MILHOUSE_BUILD'] = '161224'
+from lib import mock
+mock.mock_libreelec()
 
-from lib import builds
+from lib import builds, config, sources
 
 
 def main():
@@ -49,16 +45,16 @@ def main():
     print "Installed build = {}".format(installed_build)
     print
 
-    urls = builds.sources()
+    build_sources = sources.build_sources()
 
     if len(sys.argv) > 1:
         name = sys.argv[1]
-        if name not in urls:
+        if name not in build_sources:
             print '"{}" not in URL list'.format(name)
         else:
-            print_links(name, urls[name])
+            print_links(name, build_sources[name])
     else:
-        for name, build_url in urls.items():
+        for name, build_url in build_sources.items():
             print_links(name, build_url)
 
 

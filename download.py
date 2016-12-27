@@ -30,12 +30,19 @@ add_deps_to_path()
 
 import requests
 
-from resources.lib import builds, libreelec, funcs
+from resources.lib import builds, libreelec, funcs, config, sources
 
+arch_default = None
+if libreelec.OS_RELEASE['NAME'] != "LibreELEC":
+    from resources.lib import mock
+    mock.mock_libreelec()
+    libreelec.UPDATE_DIR = os.path.expanduser('~')
+    arch_default = 'RPi2.arm'
 
 parser = ArgumentParser(description='Download a LibreELEC update')
 parser.add_argument('-a', '--arch',
-                    help='Set the build type (e.g. Generic.x86_64, RPi.arm)')
+                    help='Set the build type (e.g. Generic.x86_64, RPi.arm)',
+                    default=arch_default)
 parser.add_argument('-s', '--source', help='Set the build source')
 parser.add_argument('-r', '--releases', action='store_true',
                     help='Look for unofficial releases instead of development builds')
@@ -71,30 +78,30 @@ def get_choice(items, suffix=lambda item: " ", reverse=False):
 
 
 if args.arch:
-    builds.arch = args.arch
+    config.arch = args.arch
 
-urls = builds.sources()
+build_sources = sources.build_sources()
 
 if args.source:
-    source = args.source
+    source_name = args.source
     try:
-        build_url = urls[source]
+        build_source = build_sources[source_name]
     except KeyError:
-        parsed = urlparse(source)
+        parsed = urlparse(source_name)
         if parsed.scheme in ('http', 'https') and parsed.netloc:
             if args.releases:
-                build_url = builds.BuildsURL(source,
+                build_url = builds.BuildsURL(source_name,
                                              extractor=builds.ReleaseLinkExtractor)
             else:
-                build_url = builds.BuildsURL(source)
+                build_url = builds.BuildsURL(source_name)
         else:
             print ('"{}" is not in the list of available sources '
                    'and is not a valid HTTP URL').format(args.source)
-            print 'Valid options are:\n\t{}'.format("\n\t".join(urls.keys()))
+            print 'Valid options are:\n\t{}'.format("\n\t".join(build_sources.keys()))
             sys.exit(1)
 else:
-    source = get_choice(urls.keys())
-    build_url = urls[source]
+    source_name = get_choice(build_sources.keys())
+    build_source = build_sources[source_name]
 
 installed_build = builds.get_installed_build()
 
@@ -108,7 +115,7 @@ def build_suffix(build):
     return symbol
 
 print
-print "Arch: {}".format(builds.arch)
+print "Arch: {}".format(config.arch)
 print "Installed build: {}".format(installed_build)
 
 
@@ -134,7 +141,7 @@ def process(fin, fout, size, read_func=read):
     print
 
 try:
-    links = build_url.builds()
+    links = build_source.builds()
 except requests.RequestException as e:
     print str(e)
 except builds.BuildURLError as e:
@@ -164,7 +171,7 @@ else:
                 process(fin, fout, size, decompress)
             os.remove(file_path)
 
-        funcs.create_notify_file(source, build)
+        funcs.create_notify_file(source_name, build)
 
         print
         print "The update is ready to be installed. Please reboot."
