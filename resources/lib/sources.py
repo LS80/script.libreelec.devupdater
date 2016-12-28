@@ -4,7 +4,7 @@
 """
 from collections import OrderedDict
 
-import builds, libreelec
+from . import builds, milhouse, libreelec
 
 def build_sources():
     sources = OrderedDict()
@@ -12,9 +12,9 @@ def build_sources():
     sources["Official Releases"] = builds.BuildsURL("http://releases.libreelec.tv/releases.json",
                                                     extractor=builds.ReleaseLinkExtractor)
 
-    sources["Milhouse Builds"] = builds.MilhouseBuildsURL()
+    sources["Milhouse Builds"] = milhouse.MilhouseBuildsURL()
 
     if libreelec.debug_system_partition():
-        sources["Milhouse Builds (debug)"] = builds.MilhouseBuildsURL(subdir="debug")
+        sources["Milhouse Builds (debug)"] = milhouse.MilhouseBuildsURL(subdir="debug")
 
     return sources

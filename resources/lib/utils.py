@@ -9,7 +9,7 @@ from urlparse import urlparse
 
 import xbmc, xbmcaddon, xbmcgui
 
-from . import libreelec, log, addon, funcs, history, builds, config
+from . import libreelec, log, addon, funcs, history, builds, milhouse, config
 from .addon import L10n
 
 
@@ -217,7 +217,7 @@ def add_custom_sources(sources):
                 if subdir == L10n(32128):
                     subdir = addon.get_setting('other_subdir' + suffix)
                 custom_name = "Milhouse Builds ({})".format(subdir)
-                sources[custom_name] = builds.MilhouseBuildsURL(subdir)
+                sources[custom_name] = milhouse.MilhouseBuildsURL(subdir)
             elif build_type_index < 2:
                 custom_name = addon.get_setting('custom_source' + suffix)
                 custom_url = addon.get_setting('custom_url' + suffix)
