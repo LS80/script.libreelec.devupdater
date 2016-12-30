@@ -127,7 +127,7 @@ def install_cmdline_script():
         ./devupdate
     """
 
-    SCRIPT_NAME = "download.py"
+    SCRIPT_NAME = "cli.py"
     script_path = os.path.join(addon.src_path, SCRIPT_NAME)
 
     SYMLINK_NAME = "devupdate"
@@ -195,7 +195,7 @@ def maybe_confirm_installation(selected, installed_build):
         notify(msg.format(build_str))
         log.log(msg.format(selected_build))
 
-        history.add_install(source, selected_build)
+        history.BuildHistory().add_install(source, selected_build)
     else:
         msg = L10n(32065)
         notify(msg.format(build_str), error=True)

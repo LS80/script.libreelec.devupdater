@@ -41,7 +41,7 @@ class HistoryDialog(BaseInfoDialog):
         if self._history is not None:
             self.getControl(1).setLabel(L10n(32031))
             install_list = self.getControl(2)
-            for install in reversed(self._history):
+            for install in self._history:
                 li = xbmcgui.ListItem()
                 for attr in ('source', 'version'):
                     li.setProperty(attr, str(getattr(install, attr)))
@@ -151,7 +151,7 @@ class BuildSelectDialog(xbmcgui.WindowXMLDialog):
             self.close()
             addon.open_settings()
         elif controlID == self.HISTORY_BUTTON_ID:
-            dialog = HistoryDialog(history.get_full_install_history())
+            dialog = HistoryDialog(history.BuildHistory().full_install_history())
             dialog.doModal()
         elif controlID == self.CANCEL_BUTTON_ID:
             if utils.remove_update_files():
