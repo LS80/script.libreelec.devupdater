@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="script.libreelec.devupdater"
        name="LibreELEC Dev Updater"
-       version="5.0.0"
+       version="5.1.0"
        provider-name="Leopold">
   <requires>
     <import addon="xbmc.python" version="2.13.0"/>
@@ -18,7 +18,7 @@
     <summary>LibreELEC development build updater</summary>
     <description>This add-on downloads LibreELEC update files ready to be installed on the next reboot. Select a predefined source or a custom source defined in the add-on settings, then choose from a list of available builds. Some sources provide full build details which can be viewed by pressing 'Info'.</description>
     <disclaimer>Development builds often have major bugs and crashes can happen quite often. Always backup your userdata folder when installing development builds.</disclaimer>
-    <website>http://ls80.github.io/script.libreelec.devupdater</website>
+    <website>http://devupdater.leopold.me.uk</website>
     <source>http://github.com/LS80/script.libreelec.devupdater.git</source>
     <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
     <assets>

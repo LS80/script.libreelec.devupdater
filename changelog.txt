@@ -1,3 +1,9 @@
+5.1.0
+ - Added a multi-purpose commmand line script.
+
+5.0.0
+ - Initial version for LibreELEC only.
+
 4.39.0
  - Add LibreELEC support.
 
