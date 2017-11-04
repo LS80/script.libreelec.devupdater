@@ -205,7 +205,10 @@ class BuildLinkExtractor(BaseExtractor):
 class ReleaseLinkExtractor(BaseExtractor):
     def __iter__(self):
         base_url = "http://releases.libreelec.tv"
-        releases = self._json()[libreelec.release()]['project'][config.arch]['releases']
+        json = self._json()
+        if libreelec.release() not in json:
+            return
+        releases = json[libreelec.release()]['project'][config.arch]['releases']
         for release in releases.itervalues():
             filename = release['file']['name']
             release_name = re.search('-(\d+\.\d+\.\d+).tar', filename).group(1)
