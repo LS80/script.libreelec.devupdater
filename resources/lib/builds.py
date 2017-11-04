@@ -211,7 +211,7 @@ class ReleaseLinkExtractor(BaseExtractor):
         releases = json[libreelec.release()]['project'][config.arch]['releases']
         for release in releases.itervalues():
             filename = release['file']['name']
-            release_name = re.search('-(\d+\.\d+\.\d+).tar', filename).group(1)
+            release_name = re.search('-([\d\.]+).tar', filename).group(1)
             release_link = ReleaseLink(base_url, filename, release_name)
             if release_link:
                 yield release_link
