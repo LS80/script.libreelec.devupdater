@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="script.libreelec.devupdater"
        name="LibreELEC Dev Updater"
-       version="5.1.1"
+       version="5.1.2"
        provider-name="Leopold">
   <requires>
     <import addon="xbmc.python" version="2.13.0"/>
@@ -27,6 +27,6 @@
       <screenshot>screenshots/builds.png</screenshot>
       <screenshot>screenshots/build_details.png</screenshot>
     </assets>
-    <news>Initial version for LibreELEC</news>
+    <news>Fixed Milhouse build information</news>
   </extension>
 </addon>

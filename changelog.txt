@@ -1,5 +1,8 @@
+5.1.2
+ - Fix parsing of Milhouse build information from the forum.
+
 5.1.1
- - Fix extracting Official Releases
+ - Fix extracting Official Releases.
 
 5.1.0
  - Added a multi-purpose commmand line script.
