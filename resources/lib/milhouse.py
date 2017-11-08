@@ -20,10 +20,10 @@ class MilhouseBuildDetailsExtractor(builds.BuildDetailsExtractor):
        from the release post on the Kodi forum.
     """
     def get_text(self):
-        soup = BeautifulSoup(self._text(), 'html.parser')
+        soup = BeautifulSoup(self._text(), 'html5lib')
         pid = urlparse.parse_qs(urlparse.urlparse(self.url).query)['pid'][0]
         post_div_id = "pid_{}".format(pid)
-        post = soup.find('div', 'post-body', id=post_div_id)
+        post = soup.find('div', 'post_body', id=post_div_id)
 
         text_maker = html2text.HTML2Text()
         text_maker.ignore_links = True
@@ -45,7 +45,7 @@ class MilhouseBuildInfoExtractor(builds.BuildInfoExtractor):
     R = re.compile(r"#(\d{4}[a-z]?).*?\((.+)\)")
 
     def _get_info(self, soup):
-        for post in soup.find_all('div', 'post-body', limit=3):
+        for post in soup('div', 'post_body', limit=3):
             for ul in post('ul'):
                 for li in ul('li'):
                     m = self.R.match(li.get_text())
@@ -56,7 +56,7 @@ class MilhouseBuildInfoExtractor(builds.BuildInfoExtractor):
                                                 MilhouseBuildDetailsExtractor(url)))
 
     def get_info(self):
-        soup = BeautifulSoup(self._text(), 'html.parser')
+        soup = BeautifulSoup(self._text(), 'html5lib')
         return dict(self._get_info(soup))
 
     @classmethod

@@ -39,7 +39,8 @@ def size_fmt(num):
 def add_deps_to_path():
     addons = os.path.join(os.path.expanduser('~'), '.kodi', 'addons')
     if os.path.isdir(addons):
-        for module in ('requests', 'beautifulsoup4', 'html2text'):
+        for module in ('requests', 'urllib3', 'chardet', 'certifi', 'idna',
+                       'beautifulsoup4', 'html5lib', 'html2text'):
             path = os.path.join(addons, 'script.module.' + module, 'lib')
             sys.path.append(path)
 

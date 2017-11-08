@@ -36,8 +36,8 @@ def main():
                     summary = info[link.version]
                 except KeyError:
                     summary = ""
-                print "\t{:25s} {}".format(str(link) + ' *' * (link > installed_build),
-                                           summary)
+                print u"\t{:25s} {}".format(str(link) + ' *' * (link > installed_build),
+                                            summary).encode('utf-8')
         except (requests.RequestException, builds.BuildURLError) as e:
             print str(e)
         print
